@@ -1,25 +1,23 @@
-import subprocess
-import sys
+import importlib.util
 
 def evaluate(program_path):
     try:
-        result = subprocess.run(
-            [sys.executable, program_path],
-            capture_output= True,
-            text= True,
-            timeout= 5
-        )
-    
-        output = result.stdout.strip()
-        
+        # Load the candidate program as a module
+        spec = importlib.util.spec_from_file_location("candidate", program_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        # Call the greet() function directly
+        output = module.greet()
+
+        # Convert to string just in case
+        output = str(output)
+
         if "AI" in output:
             return {"fitness": 10}
         else:
             return {"fitness": 1}
-    
-    except Exception:
-        return {"fitness": 0}
 
-    
-    
-    
+    except Exception as e:
+        print("Evaluation error:", e)
+        return {"fitness": 0}

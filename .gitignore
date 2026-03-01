@@ -1,0 +1,15 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+virenv/
+venv/
+.env
+
+# Generated files
+generated/
+
+# OS files
+.DS_Store

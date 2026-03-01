@@ -1,7 +1,7 @@
 ```python
 def greet():
     # EVOLVE-BLOCK-START
-    return "Hello AI"
+    return "Greetings! Your AI is online and ready to assist."
     # EVOLVE-BLOCK-END
 
 
