@@ -190,7 +190,7 @@ The process:
 3. Reject near-duplicates (>95% similarity)
 4. Ensure the global best solution is never lost (elitism)
 
-The fitness-distance balance is critical. Pure fitness ranking causes convergence within 2-3 generations -- all parents become near-identical and the LLM keeps producing the same mutations. By reserving 40% of the selection score for diversity, we ensure the parent pool contains genuinely different approaches that can be combined via crossover
+- The fitness-distance balance is critical. Pure fitness ranking causes convergence within 2-3 generations -- all parents become near-identical and the LLM keeps producing the same mutations. By reserving 40% of the selection score for diversity, we ensure the parent pool contains genuinely different approaches that can be combined via crossover
 ---
 
 ### llm_client.py
