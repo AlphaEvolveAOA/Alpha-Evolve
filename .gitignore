@@ -9,6 +9,7 @@ __pycache__/
 virenv/
 venv/
 .env
+.vscode
 
 # Generated files
 generated/
