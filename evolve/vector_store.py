@@ -5,7 +5,7 @@ from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunct
 from evolve.models import Candidate
 class VectorStore:
     _embedding_function = None
-
+    
     def __init__(self, persist_dir: str = "./data/chromadb"):
         os.makedirs(persist_dir, exist_ok=True)
         self.client = chromadb.PersistentClient(path=persist_dir)
