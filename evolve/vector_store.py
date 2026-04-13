@@ -19,7 +19,7 @@ class VectorStore:
             embedding_function=self.ef,
             metadata={"hnsw:space": "cosine"},
         )
-
+        
     def add_candidate(self, candidate: Candidate) -> None:
         metadata = self._build_metadata(candidate)
         existing = self.collection.get(ids=[candidate.code_hash])
