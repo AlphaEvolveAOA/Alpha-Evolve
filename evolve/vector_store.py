@@ -3,8 +3,6 @@ import chromadb
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
 from evolve.models import Candidate
-
-
 class VectorStore:
     _embedding_function = None
 

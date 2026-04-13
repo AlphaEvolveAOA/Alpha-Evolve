@@ -15,7 +15,6 @@ from evolve.prompts import (
     build_fitness_description,
 )
 
-
 class BaseMutator(ABC):
     @abstractmethod
     def generate(self, parents: list[Candidate], generation: int,
