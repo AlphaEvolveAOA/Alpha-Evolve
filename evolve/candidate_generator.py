@@ -21,6 +21,8 @@ class BaseMutator(ABC):
                  config: RunConfig, performance_history: list[dict]) -> list[Candidate]:
         pass
 
+
+
 class NoEvolutionMutator(BaseMutator):
     """Single-shot LLM baseline: one LLM call with no evolutionary loop.
     If no LLM client is available, returns the original code unchanged."""
