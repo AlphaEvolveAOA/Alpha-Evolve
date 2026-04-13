@@ -127,6 +127,7 @@ class EvolutionController:
             )
 
             # Build per-candidate attempt summaries for the LLM prompt
+            # Build per-candidate attempt summaries for the LLM prompt
             attempt_summaries = []
             for c in candidates:
                 delta = (c.fitness or 0) - (parents[0].fitness or 0) if parents else 0
