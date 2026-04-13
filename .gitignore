@@ -2,14 +2,29 @@
 __pycache__/
 *.py[cod]
 *.pyo
+*.pyc
+
 
 # Virtual environment
 virenv/
 venv/
 .env
+.vscode
 
 # Generated files
 generated/
 
 # OS files
 .DS_Store
+
+.env
+.env.example
+secret.txt
+data/chromadb*/
+data/test_*/
+data/project_pdf_extracted.txt
+data/generations/
+data/plots/
+*.egg-info/
+.claude/
+pacman/evolvedAgents.py
