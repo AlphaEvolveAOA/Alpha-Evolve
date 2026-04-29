@@ -155,6 +155,7 @@ class EvolvedAgent(Agent):
             "failed_layouts": ", ".join(failed_layouts),
             "all_scores": all_scores,
             "avg_cost_steps": avg_cost,
+            "avg_survival_steps": avg_survival
 
         }
         breakdown.update(_estimate_algorithmic_complexity(code, "pacman"))

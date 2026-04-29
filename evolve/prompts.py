@@ -281,8 +281,8 @@ def _format_observed_metrics(problem_type: str, fitness_breakdown: dict | None) 
     if problem_type == "pacman":
         lines = [
             f"- avg_score = {fitness_breakdown.get('avg_score', 0):.4f}",
-            f"- max_score = {fitness_breakdown.get('max_score', 0):.4f}",
-            f"- min_score = {fitness_breakdown.get('min_score', 0):.4f}",
+            f"- avg_survival_steps = {fitness_breakdown.get('avg_survival_steps', 0):.4f}",
+            f"- avg_cost_steps = {fitness_breakdown.get('avg_cost_steps', 0):.4f}",
             f"- win_rate = {fitness_breakdown.get('win_rate', 0):.4f}",
             f"- layouts_tested = {fitness_breakdown.get('layouts_tested', '') or 'n/a'}",
         ]
