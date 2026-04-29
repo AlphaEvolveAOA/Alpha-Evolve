@@ -492,6 +492,9 @@ PACMAN_LAYOUT_PRESETS = {
     "Small + Medium (Default)": ("smallClassic", "mediumClassic"),
     "Medium + Open": ("mediumClassic", "openClassic"),
     "Open + Original": ("openClassic", "originalClassic"),
+    "Scary + Dotted": ("mediumScaryMaze", "mediumDottedMaze"),
+    "Scary": "mediumScaryMaze",
+    "Dotted":"mediumDottedMaze"
 }
 
 # ── Sidebar ─────────────────────────────────────────────────────────────────
@@ -521,6 +524,8 @@ with st.sidebar:
             help="Larger layouts increase evaluation time and can make behavior differences more visible.",
         )
         pacman_layouts = PACMAN_LAYOUT_PRESETS[layout_preset]
+        if isinstance(pacman_layouts, str):
+            pacman_layouts = (pacman_layouts,)
         st.caption(f"Layouts used for evaluation: {', '.join(pacman_layouts)}")
 
     input_type = st.selectbox(

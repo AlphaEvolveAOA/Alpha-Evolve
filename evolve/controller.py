@@ -101,7 +101,7 @@ class EvolutionController:
             best_exec_time = best_candidate_this_gen.fitness_breakdown.get("exec_time_ms", 0)
             best_complexity = best_candidate_this_gen.fitness_breakdown.get("estimated_time_complexity", "")
             best_generalized_complexity = best_candidate_this_gen.fitness_breakdown.get("generalized_time_complexity", "")
-            score = best_candidate_this_gen.fitness_breakdown.get("avg_score",0)
+            avg_score = best_candidate_this_gen.fitness_breakdown.get("avg_score",0)
             stats = {
                 "avg_fitness": sum(fitnesses) / len(fitnesses) if fitnesses else 0,
                 "max_fitness": max(fitnesses) if fitnesses else 0,
@@ -118,12 +118,15 @@ class EvolutionController:
                 "generation_step_count": len(candidates),
                 "best_estimated_time_complexity": best_complexity,
                 "best_generalized_time_complexity": best_generalized_complexity,
+                "best_score" : 0.0
             }
             mode = self.config.problem_type.upper()
 
             if mode == "PACMAN":
-                    stats["best_score"] = score if score is not None else 0.0
-
+                best_score = best_candidate_this_gen.fitness_breakdown.get("max_score", 0.0) 
+                stats["best_score"] = best_score if best_score is not None else 0.0
+            else:
+                stats["best_score"] = max(fitnesses) if fitnesses else 0
 
             gen_log.append(
                 f"  Generation time: {gen_elapsed*1000:.1f}ms | "
@@ -139,7 +142,7 @@ class EvolutionController:
             print(f"Evaluated: {evaluated_count} | Cached: {cached_count}")
             if mode == "PACMAN":
                 print(f"Best Score This Iteration: {stats['best_score']:.4f}")
-            # Build per-candidate attempt summaries for the LLM prompt
+                print(f"Average Score This Iteration: {avg_score}")
             # Build per-candidate attempt summaries for the LLM prompt
             attempt_summaries = []
             for c in candidates:
