@@ -254,7 +254,7 @@ def _matrices_equal(a, b, tol=1e-6) -> bool:
 def _estimate_algorithmic_complexity(code: str, problem_type: str) -> dict:
     wrapped = f"def _candidate():\n{_indent(code, 4)}"
     try:
-        tree = ast.parse(wrapped)
+        tree = ast.parse(wrapped) #abstract syntax tress 
     except SyntaxError:
         return {
             "estimated_time_complexity": "Unknown",
@@ -262,7 +262,7 @@ def _estimate_algorithmic_complexity(code: str, problem_type: str) -> dict:
             "complexity_note": "Could not parse code for static complexity estimation.",
         }
 
-    visitor = _ComplexityVisitor()
+    visitor = _ComplexityVisitor()#walks and finds depth
     visitor.visit(tree)
 
     if problem_type == "matrix":
