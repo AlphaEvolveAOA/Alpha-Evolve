@@ -567,7 +567,7 @@ with st.sidebar:
 
     st.markdown("## Fitness Weights")
     if problem_type == "pacman":
-        st.caption("fitness = self.w1 * avg_score + self.w2 * max_score - self.w3 * avg_cost")
+        st.caption("fitness = self.w1 * avg_score + self.w2 * avg_survival - self.w3 * avg_cost")
     else:
         st.caption("fitness = w1 * correctness + w2 * (1/(ops+1)) + w3 * (1/(exec_ms+1))")
 

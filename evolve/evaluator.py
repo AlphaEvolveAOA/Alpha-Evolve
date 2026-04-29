@@ -136,14 +136,14 @@ class EvolvedAgent(Agent):
         max_score = max(all_scores)
         min_score = min(all_scores)
         avg_cost = sum(all_steps) / len(all_steps) if all_steps else 0.0
-        
+        avg_survival = avg_cost
         wins = sum(1 for s in all_scores if s > 0)
         win_rate = wins / len(all_scores) if all_scores else 0.0
 
         # Fitness = w1*avg_score + w2*max_score + w3*win_rate
         # w3 rewards survival (games where Pac-Man wins / scores positive)
         # fitness = self.w1 * avg_score + self.w2 * max_score + self.w3 * (win_rate * abs(avg_score) if avg_score != 0 else 0)
-        fitness = self.w1 * avg_score + self.w2 * max_score - self.w3 * avg_cost
+        fitness = self.w1 * avg_score + self.w2 * avg_survival - self.w3 * avg_cost
 
         breakdown = {
             "avg_score": avg_score,

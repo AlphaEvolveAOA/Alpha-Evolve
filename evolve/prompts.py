@@ -156,8 +156,8 @@ def build_fitness_description(problem_type: str, fitness_weights: tuple[float, f
     if problem_type == "pacman":
         return (
             f"{fitness_weights[0]}*avg_score + "
-            f"{fitness_weights[1]}*max_score + "
-            f"{fitness_weights[2]}*survival"
+            f"{fitness_weights[1]}*avg_survival_steps + "
+            f"{fitness_weights[2]}*avg_cost_steps"
         )
     return (
         f"{fitness_weights[0]}*correctness + "
