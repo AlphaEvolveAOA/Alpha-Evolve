@@ -101,7 +101,8 @@ class EvolutionController:
             best_exec_time = best_candidate_this_gen.fitness_breakdown.get("exec_time_ms", 0)
             best_complexity = best_candidate_this_gen.fitness_breakdown.get("estimated_time_complexity", "")
             best_generalized_complexity = best_candidate_this_gen.fitness_breakdown.get("generalized_time_complexity", "")
-
+            score = best_candidate_this_gen.fitness_breakdown.get("avg_score",0)
+            
             stats = {
                 "avg_fitness": sum(fitnesses) / len(fitnesses) if fitnesses else 0,
                 "max_fitness": max(fitnesses) if fitnesses else 0,
@@ -119,6 +120,9 @@ class EvolutionController:
                 "best_estimated_time_complexity": best_complexity,
                 "best_generalized_time_complexity": best_generalized_complexity,
             }
+            if score!=0:
+                    stats["best_score"] = round(score,2)
+
 
             gen_log.append(
                 f"  Generation time: {gen_elapsed*1000:.1f}ms | "
@@ -132,8 +136,8 @@ class EvolutionController:
             print(f"Best Fitness: {stats['max_fitness']:.4f}")
             print(f"Avg Fitness: {stats['avg_fitness']:.4f}")
             print(f"Evaluated: {evaluated_count} | Cached: {cached_count}")
-            print(f"Best Score This Iteration: {stats['max_fitness']:.4f}")
-
+            if mode.upper == "PACMAN":
+                print(f"Best Score This Iteration: {stats['best_score']:.4f}")
             # Build per-candidate attempt summaries for the LLM prompt
             # Build per-candidate attempt summaries for the LLM prompt
             attempt_summaries = []

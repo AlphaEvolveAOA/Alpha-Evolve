@@ -1,5 +1,8 @@
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+from transformers.utils import logging
+logging.set_verbosity_error()
 import streamlit as st
 import pandas as pd
 import plotly.express as px
