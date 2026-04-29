@@ -102,7 +102,6 @@ class EvolutionController:
             best_complexity = best_candidate_this_gen.fitness_breakdown.get("estimated_time_complexity", "")
             best_generalized_complexity = best_candidate_this_gen.fitness_breakdown.get("generalized_time_complexity", "")
             score = best_candidate_this_gen.fitness_breakdown.get("avg_score",0)
-            
             stats = {
                 "avg_fitness": sum(fitnesses) / len(fitnesses) if fitnesses else 0,
                 "max_fitness": max(fitnesses) if fitnesses else 0,
@@ -124,7 +123,6 @@ class EvolutionController:
 
             if mode == "PACMAN":
                     stats["best_score"] = score if score is not None else 0.0
-                    stats["cost"] = cost if cost is not None else 0.0
 
 
             gen_log.append(
