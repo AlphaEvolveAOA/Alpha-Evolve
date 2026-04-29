@@ -90,6 +90,7 @@ class EvolvedAgent(Agent):
 
         layouts = list(self.config.pacman_layouts)
         all_scores = []
+        all_steps = []
         total_games = 0
         failed_layouts = []
 
@@ -108,11 +109,16 @@ class EvolvedAgent(Agent):
                 if result.returncode != 0:
                     failed_layouts.append(layout)
                     continue
-                scores = _parse_pacman_output(result.stdout)
+                # print("RAW PACMAN OUTPUT:")
+                # print(result.stdout)
+                scores, steps = _parse_pacman_output(result.stdout)
+                # print("SCORES:", scores)
+                # print("STEPS:", steps)
                 if not scores:
                     failed_layouts.append(layout)
                     continue
                 all_scores.extend(scores)
+                all_steps.extend(steps)
                 total_games += len(scores)
             except subprocess.TimeoutExpired:
                 failed_layouts.append(layout)
@@ -129,12 +135,16 @@ class EvolvedAgent(Agent):
         avg_score = sum(all_scores) / len(all_scores)
         max_score = max(all_scores)
         min_score = min(all_scores)
+        avg_cost = sum(all_steps) / len(all_steps) if all_steps else 0.0
+        
         wins = sum(1 for s in all_scores if s > 0)
         win_rate = wins / len(all_scores) if all_scores else 0.0
 
         # Fitness = w1*avg_score + w2*max_score + w3*win_rate
         # w3 rewards survival (games where Pac-Man wins / scores positive)
-        fitness = self.w1 * avg_score + self.w2 * max_score + self.w3 * (win_rate * abs(avg_score) if avg_score != 0 else 0)
+        # fitness = self.w1 * avg_score + self.w2 * max_score + self.w3 * (win_rate * abs(avg_score) if avg_score != 0 else 0)
+        fitness = self.w1 * avg_score + self.w2 * max_score - self.w3 * avg_cost
+
         breakdown = {
             "avg_score": avg_score,
             "max_score": max_score,
@@ -144,9 +154,12 @@ class EvolvedAgent(Agent):
             "layouts_tested": ", ".join(layouts),
             "failed_layouts": ", ".join(failed_layouts),
             "all_scores": all_scores,
+            "avg_cost_steps": avg_cost,
+
         }
         breakdown.update(_estimate_algorithmic_complexity(code, "pacman"))
         return fitness, breakdown
+
 
     def _evaluate_matrix(self, code: str) -> tuple[float, dict]:
         import numpy as np
@@ -219,24 +232,47 @@ def _indent(code: str, spaces: int) -> str:
     return "\n".join(prefix + line if line.strip() else line for line in lines)
 
 
-def _parse_pacman_output(output: str) -> list[float]:
+def _parse_pacman_output(output: str) -> tuple[list[float], list[float]]:
     scores = []
+    steps = []
+
     for line in output.split("\n"):
-        match = re.search(r"Score:\s*([-\d.]+)", line)
-        if match:
-            scores.append(float(match.group(1)))
+
+        score_match = re.search(r"Score:\s*([-\d.]+)", line)
+        if score_match:
+            scores.append(float(score_match.group(1)))
+
+        step_match = re.search(r"Steps:\s*(\d+)", line)
+        if step_match:
+            steps.append(float(step_match.group(1)))
+
         scores_match = re.search(r"Scores:\s*(.*)", line)
         if scores_match:
             try:
-                scores = [float(s.strip()) for s in scores_match.group(1).split(",") if s.strip()]
+                scores = [
+                    float(s.strip())
+                    for s in scores_match.group(1).split(",")
+                    if s.strip()
+                ]
             except ValueError:
                 pass
+
+    # fallback for score only
     if not scores:
         avg_match = re.search(r"Average Score:\s*([-\d.]+)", output)
         if avg_match:
             scores = [float(avg_match.group(1))]
-    return scores
 
+    # align safety
+    if len(steps) == 0:
+        steps = [0] * len(scores)
+
+    if len(steps) != len(scores):
+        min_len = min(len(scores), len(steps))
+        scores = scores[:min_len]
+        steps = steps[:min_len]
+
+    return scores, steps
 
 def _matrices_equal(a, b, tol=1e-6) -> bool:
     if not a or not b:
