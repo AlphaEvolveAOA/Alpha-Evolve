@@ -25,7 +25,7 @@ class Selector:
         selected_codes = []
         rejected_reasons = []
 
-        # Always pick the top candidate first
+        # Always pick the top candidate first # Greedy
         if ranked_by_fitness:
             best = ranked_by_fitness[0]
             selected.append(best)
@@ -37,7 +37,8 @@ class Selector:
             best_score = -float("inf")
             best_candidate = None
 
-            # Normalize fitness values for scoring
+            # Normalize fitness values for scoring 
+            #Normalization makes all candidates comparable by converting them into relative scores based on the minimum and maximum fitness in the current pool.
             fit_vals = [c.fitness or 0 for c in remaining]
             max_fit = max(fit_vals) if fit_vals else 1
             min_fit = min(fit_vals) if fit_vals else 0
@@ -47,7 +48,7 @@ class Selector:
                 # Fitness component (0-1)
                 norm_fitness = ((c.fitness or 0) - min_fit) / fit_range
 
-                # Diversity component: min distance to any already-selected candidate
+                # Diversity component: min distance to any already-selected candidate Jaccard
                 min_sim = min(
                     (self._code_similarity(c.code, sc) for sc in selected_codes),
                     default=0.0,

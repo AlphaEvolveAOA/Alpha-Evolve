@@ -1,10 +1,9 @@
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import json
-import os
-import time
 from pathlib import Path
 
 from evolve.models import RunConfig, Candidate
@@ -12,7 +11,6 @@ from evolve.controller import EvolutionController
 from evolve.vector_store import VectorStore
 from evolve.llm_client import LLMClient
 from evolve.prompts import build_description_to_code_prompt
-
 st.set_page_config(
     page_title="Evolve",
     page_icon="🧬",

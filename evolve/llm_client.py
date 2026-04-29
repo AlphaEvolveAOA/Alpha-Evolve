@@ -43,7 +43,7 @@ class LLMClient:
         pattern = r"```(?:python)?\s*\n(.*?)```"
         matches = re.findall(pattern, text, re.DOTALL)
         if matches:
-            return matches[-1].strip()
+            return matches[-1].strip() #if models wraps code properly
 
         cleaned = text.strip().strip("`").strip()
         if not cleaned:
@@ -54,13 +54,13 @@ class LLMClient:
         code_markers = (
             "def ", "return ", "if ", "for ", "while ", "try:", "except", "result",
             "legal", "closest_food", "best_action", "A[", "B["
-        )
+        ) #detect code
 
         for i, line in enumerate(lines):
             stripped = line.strip()
             if not stripped:
                 continue
-            if stripped.startswith(("Here", "This", "Explanation", "Improved", "Updated")) and ":" in stripped:
+            if stripped.startswith(("Here", "This", "Explanation", "Improved", "Updated")) and ":" in stripped: #ignore text
                 continue
             if stripped.startswith(code_markers) or stripped.endswith(":") or "=" in stripped:
                 start_idx = i

@@ -125,6 +125,14 @@ class EvolutionController:
                 f"Best eval: {best_eval_time:.1f}ms | "
                 f"Evaluated: {evaluated_count} | Cached: {cached_count}"
             )
+            mode = self.config.problem_type.upper()
+
+            print(f"\n[{mode} GEN {gen} {self.config.mutation_strategy}]")
+            print(f"Time: {gen_elapsed:.3f}s")
+            print(f"Best Fitness: {stats['max_fitness']:.4f}")
+            print(f"Avg Fitness: {stats['avg_fitness']:.4f}")
+            print(f"Evaluated: {evaluated_count} | Cached: {cached_count}")
+            print(f"Best Score This Iteration: {stats['max_fitness']:.4f}")
 
             # Build per-candidate attempt summaries for the LLM prompt
             # Build per-candidate attempt summaries for the LLM prompt
@@ -172,9 +180,11 @@ class EvolutionController:
                 if best_fitness_streak >= self.config.early_stop_patience:
                     self._log(f"\n[Early Stop] No improvement for {self.config.early_stop_patience} generations")
                     break
-
         elapsed = time.perf_counter() - start_time
         self._log(f"\n[Done] Evolution completed in {elapsed:.3f}s")
-
+        print("\n================ FINAL SUMMARY ================ ")
+        print(f"Running Time: {elapsed:.3f}s")
+        print(f"Total Generations: {self.config.num_generations}")
+        print(f"Best Overall Fitness: {self.selector.global_best.fitness:.4f}")
     def _log(self, message: str) -> None:
         self.log_entries.append(message)
