@@ -492,6 +492,9 @@ PACMAN_LAYOUT_PRESETS = {
     "Small + Medium (Default)": ("smallClassic", "mediumClassic"),
     "Medium + Open": ("mediumClassic", "openClassic"),
     "Open + Original": ("openClassic", "originalClassic"),
+    "Scary + Dotted": ("mediumScaryMaze", "mediumDottedMaze"),
+    "Scary": "mediumScaryMaze",
+    "Dotted":"mediumDottedMaze"
 }
 
 # ── Sidebar ─────────────────────────────────────────────────────────────────
