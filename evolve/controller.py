@@ -120,8 +120,11 @@ class EvolutionController:
                 "best_estimated_time_complexity": best_complexity,
                 "best_generalized_time_complexity": best_generalized_complexity,
             }
-            if score!=0:
-                    stats["best_score"] = round(score,2)
+            mode = self.config.problem_type.upper()
+
+            if mode == "PACMAN":
+                    stats["best_score"] = score if score is not None else 0.0
+                    stats["cost"] = cost if cost is not None else 0.0
 
 
             gen_log.append(
