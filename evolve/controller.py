@@ -136,7 +136,7 @@ class EvolutionController:
             print(f"Best Fitness: {stats['max_fitness']:.4f}")
             print(f"Avg Fitness: {stats['avg_fitness']:.4f}")
             print(f"Evaluated: {evaluated_count} | Cached: {cached_count}")
-            if mode.upper == "PACMAN":
+            if mode == "PACMAN":
                 print(f"Best Score This Iteration: {stats['best_score']:.4f}")
             # Build per-candidate attempt summaries for the LLM prompt
             # Build per-candidate attempt summaries for the LLM prompt
